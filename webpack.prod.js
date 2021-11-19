@@ -1,13 +1,16 @@
-const    HtmlWebPackPlugin = require('html-webpack-plugin');
+const HtmlWebPackPlugin    = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const           CopyPlugin = require("copy-webpack-plugin");
+const CopyPlugin           = require("copy-webpack-plugin");
+const Minimizer            = require('css-minimizer-webpack-plugin');
+const Terser               = require('terser-webpack-plugin');
 
 module.exports = {
 
-    mode: 'development',
+    mode: 'production',
 
     output: {
         clean: true,
+        filename: 'main.[contenthash].js',
     },
 
     module:{
@@ -33,6 +36,14 @@ module.exports = {
         ],
     },
 
+    optimization:{
+        minimize: true,
+        minimizer: [
+            new Minimizer(),
+            new Terser(),
+        ]
+    },
+
     plugins:[
         // el plugin genera un documento HTML que incluye todos los bundles webpack inyectados en el body mediante un script
         new HtmlWebPackPlugin({           
@@ -41,13 +52,13 @@ module.exports = {
         }),
 
         new MiniCssExtractPlugin({
-            
+            filename: '[name].[fullhash].css',
         }),
 
         new CopyPlugin({
             patterns:[
                 {from: 'src/assets/img', to: 'assets/img'}
             ],
-        }),
+        }),        
     ]
 };
