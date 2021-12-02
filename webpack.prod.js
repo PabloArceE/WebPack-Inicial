@@ -65,10 +65,8 @@ module.exports = {
             filename: '[name].[fullhash].css',
         }),
 
-        new CopyPlugin({
-            patterns:[
-                {from: 'src/assets/img', to: 'assets/img'}
-            ],
-        }),        
+      /*   new CopyPlugin({
+           
+        }),        */ 
     ]
 };
